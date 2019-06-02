@@ -41,10 +41,15 @@ int main(int argc, char** argv){
   efanna2e::IndexGraph index(dim, points_num, efanna2e::L2, (efanna2e::Index*)(&init_index));
 
   efanna2e::Parameters paras;
+  // KNN
   paras.Set<unsigned>("K", K);
+  // L pool size
   paras.Set<unsigned>("L", L);
+  // iteration
   paras.Set<unsigned>("iter", iter);
+  // SAMPLE SIZE
   paras.Set<unsigned>("S", S);
+  // REVERSE SIZE
   paras.Set<unsigned>("R", R);
 
   auto s = std::chrono::high_resolution_clock::now();

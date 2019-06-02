@@ -1,27 +1,28 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.13)
+project(efanna_graph)
 
-project(efanna2e)
-include_directories(${PROJECT_SOURCE_DIR}/include)
-#OpenMP
-find_package(OpenMP)
-if (OPENMP_FOUND)
-    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-else()
-    message(FATAL_ERROR "no OpenMP supprot")
-endif()
+set(CMAKE_CXX_STANDARD 14)
 
-#OpenBLAS
-list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/module)
-find_package(OpenBLAS REQUIRED)
-include_directories(${OpenBLAS_INCLUDE_DIR})
-set(BLAS_LIB ${OpenBLAS_LIB})
+include_directories(include)
+include_directories(include/efanna2e)
 
-#external libraries like faiss
-include_directories(${PROJECT_SOURCE_DIR}/extern_libraries)
-link_directories(${PROJECT_SOURCE_DIR}/extern_libraries/faiss/lib)
-
-add_definitions (-std=c++11 -O3 -lboost -march=native -Wall -DINFO)
-
-add_subdirectory(src)
-add_subdirectory(tests)
+add_executable(efanna_graph
+        include/efanna2e/distance.h
+        include/efanna2e/exceptions.h
+        include/efanna2e/index.h
+        include/efanna2e/index_graph.h
+        include/efanna2e/index_kdtree.h
+        include/efanna2e/index_pq.h
+        include/efanna2e/index_random.h
+        include/efanna2e/neighbor.h
+        include/efanna2e/parameters.h
+        include/efanna2e/util.h
+        src/index.cpp
+        src/index_graph.cpp
+        src/index_kdtree.cpp
+        src/index_pq.cpp
+        src/index_random.cpp
+        tests/test_faiss_graph.cpp
+        tests/test_kdtree_graph.cpp
+        tests/test_nndescent.cpp
+        tests/test_nndescent_refine.cpp)
